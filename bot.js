@@ -69,6 +69,7 @@ client.on('message', message => {
             collector.on('collect', msg3 => {
                 message.reply('Ты наказан на 10 минут');
                 message.member.addRole(animal);
+                message.author.send('Ты наказан на 10 минут');
                 setInterval(() => { message.member.removeRole(animal) }, 600000)
             });
     }
