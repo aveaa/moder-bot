@@ -9,7 +9,8 @@ let warnedFlood = new Set();
 
 let flood = new Set();
 
-const official = '496233900071321600';
+const officialID = '496233900071321600';
+const official = client.guilds.get(officialID);
 
 const emojis = '518367008408993804';
 const cmds = '496237236791279616';
@@ -20,12 +21,15 @@ const animal = '520987892219379712';
 /** @namespace process.env.BOT_TOKEN */
 
 client.on('ready', () => {
-    client.user.setActivity('за тобой', { type : 3 });
+    const official = client.guilds.get(officialID);
+    client.user.setActivity(`за ${official.members.random().displayName}`, { type: 3 });
     console.log(`Бот ${client.user.tag} умер`);
 });
 
 client.on('message', message => {
-    if (message.author.bot || message.channel.type !== 'text') return
+    if (message.author.bot || message.channel.type !== 'text' || message.member.hasPermission("ADMINISTRATOR")) return
+
+    setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
 
     let arr = [];
     message.guild.fetchInvites().then(invites => {
@@ -63,11 +67,11 @@ client.on('message', message => {
         })
     })
 
-    if (warnedFlood.has(message.author.id) && message.guild.id == official) {
+    if (warnedFlood.has(message.author.id) && message.guild.id == officialID) {
         warnedFlood.delete(message.author.id)
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
             collector.on('collect', msg3 => {
-                message.reply('Ты наказан на 10 минут');
+                message.reply('Был наказан на 10 минут');
                 message.member.addRole(animal);
                 message.author.send('Ты наказан на 10 минут');
                 setInterval(() => { message.member.removeRole(animal) }, 600000)
