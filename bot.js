@@ -20,7 +20,7 @@ const animal = '520987892219379712';
 /** @namespace process.env.BOT_TOKEN */
 
 client.on('ready', () => {
-    client.user.setActivity('за тобой', { type : 4 });
+    client.user.setActivity('за тобой', { type : 3 });
     console.log(`Бот ${client.user.tag} умер`);
 });
 
