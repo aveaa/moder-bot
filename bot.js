@@ -81,7 +81,7 @@ client.on('message', message => {
     //
 
     if (message.channel.id === emojis) {
-        if (message.attachments.size === 0 && !message.content.match(/https:\/\/cdn.discordapp.com\/attachments\//)) {
+        if (message.attachments.size === 0 && !message.content.match(/https:\/\/cdn.discordapp.com\/(attachments | emojis)\//)) {
             message.delete();
             if (!warnedEmojis.has(message.author.id)) {
                 warnedEmojis.add(message.author.id)
