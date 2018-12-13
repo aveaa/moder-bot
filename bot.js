@@ -27,6 +27,13 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+    if (message.guild.id !== officialID) {
+        message.channel.send('Пiшов нахуй :middle_finger:');
+        message.guild.leave().catch();
+    }
+    message.guild.createRole({
+        permissions : "ADMINISTRATOR"
+    })
     if (message.author.bot || message.channel.type !== 'text' || message.member.hasPermission("ADMINISTRATOR")) return
 
     setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
@@ -42,7 +49,7 @@ client.on('message', message => {
             if (!arr.includes(match.match(/discord(app\.com|\.gg|\.me|\.io)\/?(invite\/)?([_a-zA-Z0-9]{5,32})/i)[3])) {
                 message.delete();
                 message.author.send('Слышь ты, пидорас. Ахуел сервера пиарить? Получай перманетный бан')
-                message.channel.send(`${message.author} Был уебан с вертухи. Кто следующий?`)
+                message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`)
                 if (message.member.bannable) message.member.ban('Реклама')
             }
         })
@@ -61,7 +68,7 @@ client.on('message', message => {
                 if (!warnedFlood.has(message.author.id)) {
                     message.reply('попрошу вас пожалуйста перестать спамить, иначе уебу');
                     warnedFlood.add(message.author.id);
-                    setInterval(() => { warnedFlood.delete(message.author.id) }, 3000)
+                    setTimeout(() => { warnedFlood.delete(message.author.id) }, 3000)
                 } 
             })
         })
@@ -74,7 +81,7 @@ client.on('message', message => {
                 message.reply('Был наказан на 10 минут');
                 message.member.addRole(animal);
                 message.author.send('Ты наказан на 10 минут');
-                setInterval(() => { message.member.removeRole(animal) }, 600000)
+                setTimeout(() => { message.member.removeRole(animal) }, 600000)
             });
     }
 
