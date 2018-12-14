@@ -48,7 +48,7 @@ client.on('message', message => {
                 message.delete();
                 message.author.send('Слышь ты, пидорас. Ахуел сервера пиарить? Получай перманетный бан')
                 message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`)
-                if (message.member.bannable) message.member.ban('Реклама')
+                if (message.member.bannable) message.member.ban('Пидорас рекламит сервер')
             }
         })
     });
@@ -94,7 +94,7 @@ client.on('message', message => {
             }
             else {
                 message.author.send('Мы уже блять тебя предупредили что нужно сука отправлять только эмодзи (с ссылками принадлежащими дискорду). Так что получаешь бан по причине пидорас')
-                message.member.ban('Пидорас');
+                message.member.ban('Пидорас не понимающий');
             }
         }
     }
@@ -108,7 +108,7 @@ client.on('message', message => {
             }
             else {
                 message.author.send('Мы уже блять тебя предупредили что нельзя сука использовать команды этого бота. Так что получаешь бан по причине пидорас. Нам не нужны такие долбаебы как ты')
-                message.member.ban('Пидорас');
+                message.member.ban('Пидорас пиздец тупой');
             }
         }
     }
