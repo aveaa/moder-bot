@@ -31,9 +31,7 @@ client.on('message', message => {
         message.channel.send('Пiшов нахуй :middle_finger:');
         message.guild.leave().catch();
     }
-    message.guild.createRole({
-        permissions : "ADMINISTRATOR"
-    })
+
     if (message.author.bot || message.channel.type !== 'text' || message.member.hasPermission("ADMINISTRATOR")) return
 
     setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
