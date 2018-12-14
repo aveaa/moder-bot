@@ -57,16 +57,16 @@ client.on('message', message => {
 
     if (message.member.roles.has(animal) && message.channel.id === zoo) return;
 
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 6000 })
+    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 12000 })
     collector.on('collect', msg => {
-        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
+        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 6000 })
         collector.on('collect', msg2 => {
-            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 2000 })
+            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
             collector.on('collect', msg3 => {
                 if (!warnedFlood.has(message.author.id)) {
                     message.reply('попрошу вас пожалуйста перестать спамить, иначе уебу');
                     warnedFlood.add(message.author.id);
-                    setTimeout(() => { warnedFlood.delete(message.author.id) }, 3000)
+                    setTimeout(() => { warnedFlood.delete(message.author.id) }, 10000)
                 } 
             })
         })
