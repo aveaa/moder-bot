@@ -27,12 +27,14 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+    if (message.author.bot || message.channel.type !== 'text') return;
+    
     if (message.guild.id !== officialID) {
         message.channel.send('Пiшов нахуй :middle_finger:');
         message.guild.leave().catch();
     }
-
-    if (message.author.bot || message.channel.type !== 'text' || message.member.hasPermission("ADMINISTRATOR")) return
+    
+    if (!message.member.hasPermission("ADMINISTRATOR")) return;
 
     setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
 
