@@ -34,7 +34,7 @@ client.on('message', message => {
         message.guild.leave().catch();
     }
     
-    if (!message.member.hasPermission("ADMINISTRATOR")) return;
+    if (message.member.hasPermission("ADMINISTRATOR")) return;
 
     setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
 
