@@ -3,8 +3,6 @@ const client = new Discord.Client({disableEveryone : true});
 
 const inviteReg = /https:\/\/discord(app\.com|\.gg|\.me|\.io)\/?(invite\/)?([_a-zA-Z0-9]{5,32})/gi
 
-let warnedEmojis = new Set();
-let warnedCmds = new Set();
 let warnedFlood = new Set();
 
 let flood = new Set();
@@ -80,10 +78,10 @@ client.on('message', message => {
         warnedFlood.delete(message.author.id)
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
             collector.on('collect', msg3 => {
-                message.reply('Был наказан на 10 минут');
+                message.reply('Был наказан на час');
                 message.member.addRole(animal);
-                message.author.send('Ты наказан на 10 минут');
-                setTimeout(() => { message.member.removeRole(animal) }, 600000)
+                message.author.send('Ты наказан на час');
+                setTimeout(() => { message.member.removeRole(animal) }, 3600000)
             });
     }
 
@@ -92,28 +90,14 @@ client.on('message', message => {
     if (message.channel.id === emojis) {
         if (message.attachments.size === 0 && !message.content.match(/https:\/\/cdn.discordapp.com\/(attachments|emojis)\//)) {
             message.delete();
-            if (!warnedEmojis.has(message.author.id)) {
-                warnedEmojis.add(message.author.id)
-                message.author.send('Ваше сообщение не имеет картинки, либо ссылкана картинку не принадлежит Discord (`https://cdn.discordapp.com/attachments/id/id/name.png`). Будешь продолжать - получишь бан');
-            }
-            else {
-                message.author.send('Мы уже блять тебя предупредили что нужно сука отправлять только эмодзи (с ссылками принадлежащими дискорду). Так что получаешь бан по причине пидорас')
-                message.member.ban('Пидорас не понимающий');
-            }
+            message.author.send('Ваше сообщение не имеет картинки, либо ссылкана картинку не принадлежит Discord (`https://cdn.discordapp.com/attachments/id/id/name.png`). Будешь продолжать - получишь бан');
         }
     }
 
     if (message.channel.id === cmds) {
         if (message.content.startsWith('=r')) {
             message.delete();
-            if (!warnedCmds.has(message.author.id)) {
-                warnedCmds.add(message.author.id)
-                message.author.send('Ты че заголовок не читал? Там сказано что нельзя использовать команды этого бота, у тебя же блять нет на это прав долбаеб...');
-            }
-            else {
-                message.author.send('Мы уже блять тебя предупредили что нельзя сука использовать команды этого бота. Так что получаешь бан по причине пидорас. Нам не нужны такие долбаебы как ты')
-                message.member.ban('Пидорас пиздец тупой');
-            }
+            message.author.send('Ты че заголовок не читал? Там сказано что нельзя использовать команды этого бота, у тебя же блять нет на это прав долбаеб...');
         }
     }
 
