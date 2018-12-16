@@ -104,7 +104,7 @@ client.on('message', message => {
     }
 
     if (message.channel.id === cmds) {
-        if (message.content.startsWith('=')) {
+        if (message.content.startsWith('=r')) {
             message.delete();
             if (!warnedCmds.has(message.author.id)) {
                 warnedCmds.add(message.author.id)
