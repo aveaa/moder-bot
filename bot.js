@@ -13,6 +13,7 @@ const official = client.guilds.get(officialID);
 const emojis = '518367008408993804';
 const cmds = '496237236791279616';
 const zoo = '520988738814345216';
+const chat = '496233900071321602';
 
 const animal = '520987892219379712';
 
@@ -57,7 +58,7 @@ client.on('message', message => {
 
     //Система защиты от спама. Код пиздец какой ебнутый, я знаю
 
-    if (message.member.roles.has(animal) && message.channel.id === zoo || message.content.startsWith('/')) return;
+    if (message.member.roles.has(animal) && message.channel.id === zoo) return;
 
     const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 })
     collector.on('collect', msg => {
@@ -65,7 +66,7 @@ client.on('message', message => {
         collector.on('collect', msg2 => {
             const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 2000 })
             collector.on('collect', msg3 => {
-                if (!warnedFlood.has(message.author.id)) {
+                if (!warnedFlood.has(message.author.id) && message.channel.id === chat) {
                     message.reply('попрошу вас пожалуйста перестать спамить, иначе уебу');
                     warnedFlood.add(message.author.id);
                     setTimeout(() => { warnedFlood.delete(message.author.id) }, 10000)
