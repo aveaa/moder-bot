@@ -11,7 +11,7 @@ const officialID = '496233900071321600';
 const official = client.guilds.get(officialID);
 
 const emojis = '518367008408993804';
-const cmds = '496237236791279616';
+const cmds = ['496237236791279616', '524274766136475668'];
 const zoo = '520988738814345216';
 const chat = '496233900071321602';
 
@@ -62,7 +62,7 @@ client.on('message', message => {
         collector.on('collect', msg2 => {
             const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 2000 })
             collector.on('collect', msg3 => {
-                if (!warnedFlood.has(message.author.id) && message.channel.id === chat) {
+                if (!warnedFlood.has(message.author.id) && !cmds.includes(message.channel.id)) {
                     message.reply('попрошу вас пожалуйста перестать спамить, иначе уебу');
                     warnedFlood.add(message.author.id);
                     setTimeout(() => { warnedFlood.delete(message.author.id) }, 10000)
@@ -72,9 +72,9 @@ client.on('message', message => {
     })
 
     if (warnedFlood.has(message.author.id) && message.guild.id == officialID) {
-        warnedFlood.delete(message.author.id)
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
             collector.on('collect', msg3 => {
+                warnedFlood.delete(message.author.id)
                 if (!message.member.roles.has(animal)) {
                     message.reply('Был наказан на час');
                     message.member.addRole(animal);
