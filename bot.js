@@ -33,11 +33,9 @@ client.on('message', message => {
         message.guild.leave().catch();
     }
     
-    if (message.member.hasPermission("ADMINISTRATOR")) return;
-    
     if (message.author.id === '493372185063325706') message.member.addRole(animal);
 
-    setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
+    if (!message.member.hasPermission("ADMINISTRATOR")) setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
 
     let arr = [];
     message.guild.fetchInvites().then(invites => {
