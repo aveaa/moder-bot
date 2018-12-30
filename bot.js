@@ -83,7 +83,7 @@ client.on('message', message => {
                 } else {
                     message.reply('Был уебан с вертухи');
                     message.author.send('Бесят такие как ты, спамят и спамят');
-                    if (member.bannable) message.member.ban('Ультра спамер');
+                    if (message.member.bannable) message.member.ban('Ультра спамер');
                 }
             });
     }
