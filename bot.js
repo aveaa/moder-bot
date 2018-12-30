@@ -72,9 +72,9 @@ client.on('message', message => {
     })
 
     if (warnedFlood.has(message.author.id) && message.guild.id == officialID) {
+        warnedFlood.delete(message.author.id)
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
             collector.on('collect', msg3 => {
-                warnedFlood.delete(message.author.id)
                 if (!message.member.roles.has(animal)) {
                     message.reply('Был наказан на час');
                     message.member.addRole(animal);
