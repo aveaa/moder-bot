@@ -56,8 +56,6 @@ client.on('message', message => {
 
     //Система защиты от спама. Код пиздец какой ебнутый, я знаю
 
-    if (message.member.roles.has(animal) && message.channel.id === zoo) return;
-
     const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 8000 })
     collector.on('collect', msg => {
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
