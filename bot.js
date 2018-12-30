@@ -79,10 +79,16 @@ client.on('message', message => {
         warnedFlood.delete(message.author.id)
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
             collector.on('collect', msg3 => {
-                message.reply('Был наказан на час');
-                message.member.addRole(animal);
-                message.author.send('Ты наказан на час');
-                setTimeout(() => { message.member.removeRole(animal) }, 3600000)
+                if (!message.member.roles.has(animal)) {
+                    message.reply('Был наказан на час');
+                    message.member.addRole(animal);
+                    message.author.send('Ты наказан на час');
+                    setTimeout(() => { message.member.removeRole(animal) }, 3600000)
+                } else {
+                    message.reply('Был уебан с вертухи');
+                    message.author.send('Бесят такие как ты, спамят и спамят');
+                    if (member.bannable) message.member.ban('Ультра спамер');
+                }
             });
     }
 
