@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({disableEveryone : true});
 
-const inviteReg = /https:\/\/discord(app\.com|\.gg|\.me|\.io)\/?(invite\/)?([_a-zA-Z0-9]{5,32})/gi
+const inviteReg = /discord(app\.com\/invite|.\w{2})\/\w{5,}/gi
 
 let warnedFlood = new Set();
 
@@ -45,7 +45,7 @@ client.on('message', message => {
     let matches = message.content.match(inviteReg);
     if (matches)
         matches.forEach((match) => {
-            if (!arr.includes(match.match(/discord(app\.com|\.gg|\.me|\.io)\/?(invite\/)?([_a-zA-Z0-9]{5,32})/i)[3])) {
+            if (!arr.includes(match.match(/discord(app\.com\/invite|.\w{2})\/\w{5,}/i)[3])) {
                 message.delete();
                 message.author.send('Слышь ты, пидорас. Ахуел сервера пиарить? Получай перманетный бан')
                 message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`)
