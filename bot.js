@@ -17,6 +17,8 @@ const chat = '496233900071321602';
 
 const animal = '520987892219379712';
 
+const whitelist = ['421030089732653057', '361951318929309707'];
+
 /** @namespace process.env.BOT_TOKEN */
 
 client.on('ready', () => {
@@ -26,7 +28,7 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-    if (message.author.bot || message.channel.type !== 'text') return;
+    if (message.author.bot || message.channel.type !== 'text' || whitelist.includes(message.author.id)) return;
     
     if (message.guild.id !== officialID) {
         message.channel.send('Пiшов нахуй :middle_finger:');
