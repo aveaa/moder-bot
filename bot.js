@@ -49,7 +49,7 @@ client.on('message', message => {
         matches.forEach((match) => {
             if (!arr.includes(match.match(/discord(app\.com\/invite|.\w{2})\/\w{5,}/i)[3])) {
                 message.delete();
-                message.author.send('Слышь ты, пидорас. Ахуел сервера пиарить? Получай перманетный бан')
+                message.author.send('Сука, ахуел сервера рекламировать? Я обычно за такое кидаю гей порно в лс. Но решил просто тебя забанить навсегда')
                 message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`)
                 if (message.member.bannable) message.member.ban('Пидорас рекламит сервер')
             }
@@ -80,11 +80,11 @@ client.on('message', message => {
                 if (!message.member.roles.has(animal)) {
                     message.reply('Был наказан на час');
                     message.member.addRole(animal);
-                    message.author.send('Ты наказан на час');
+                    message.author.send('Не спамь сцуко, теперь ты наказан на час');
                     setTimeout(() => { message.member.removeRole(animal) }, 3600000)
                 } else {
                     message.reply('Был уебан с вертухи');
-                    message.author.send('Бесят такие как ты, спамят и спамят');
+                    message.author.send('Сука, уебан, пидорас, выблядок, маргинал ебучий. Рейдишь, спамишь без остановки, говно из жопы, наеюсь тебе руки оторвут и мамка твоя сдохнет в муках');
                     if (message.member.bannable) message.member.ban('Ультра спамер');
                 }
             });
