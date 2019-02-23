@@ -48,7 +48,7 @@ client.on('guildDelete', guild => {
 client.on('message', message => {
     if (message.author.bot || !message.guild) return
 
-    const muted = message.guild.roles.find(r => r.name.match(/muted/i);
+    const muted = message.guild.roles.find(r => r.name.match(/muted/i));
 
     if (message.content === '-help') {
       const embed = new Discord.RichEmbed()
