@@ -106,7 +106,7 @@ client.on('message', message => {
                 message.reply('Был наказан на 10 минут');
                 message.author.send('Ты наказан на 10 минут');
                 message.member.addRole(muted);
-                setTimeout(() => { message.member.removeRole(muted), 600000)
+                setTimeout(() => message.member.removeRole(muted), 600000)
             } else {
                 message.channel.send(`Упс, кажется, на вашем сервер нет роли с названием \`Muted\`, так что ${message.author} был кикнут`);
                 message.guild.kick(message.member);
