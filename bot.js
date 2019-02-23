@@ -27,7 +27,7 @@ client.on('guildCreate', guild => {
     .setThumbnail(guild.iconURL)
     .setFooter(`Now we have ${client.guilds.size} servers`)
     client.channels.get('548824964556521493').send(embed)
-    let channels = guild.channels.filter(channel => channel.type === 'text' && channel.permissionsFor(message.guild.me).has('SEND_MESSAGES'));
+    let channels = guild.channels.filter(channel => channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'));
     if (channels) channels.first().send(help);
 });
 
