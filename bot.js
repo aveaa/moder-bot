@@ -1,131 +1,118 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({disableEveryone : true});
 
-const inviteReg = /discord(app\.com\/invite|.\w{2})\/\w{5,})/gi;
+const inviteReg = /discord(app\.com\/invite|.\w{2}\/\w{5,})/gi;
 
-checkInvite = (text, user, guild, message) => {
-    let arr = [];
-    guild.fetchInvites().then(invites => {
-        invites.forEach(invite => {
-        arr.push(invite.code); 
-    })
-
-    let matches = text.match(inviteReg);
-
-    if (matches)
-        matches.forEach((match) => {
-            if (!arr.includes(match.match(/discord(app\.com\/invite|.\w{2})\/\w{5,})/i)[3])) {
-                if (message) {
-                    message.delete();
-                    message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`)
-                }
-
-                user.send('Слышь ты, пидорас. Ахуел сервера пиарить? Получай перманетный бан')
-                guild.ban(user)
-            }
-        })
-    });
-}
-
-let warnedEmojis = new Set();
-let warnedCmds = new Set();
 let warnedFlood = new Set();
-
 let flood = new Set();
 
-const officialID = '496233900071321600';
-const official = client.guilds.get(officialID);
-
-const emojis = '518367008408993804';
-const cmds = '496237236791279616';
-const zoo = '520988738814345216';
-
-const animal = '520987892219379712';
+const help = 'Здарова нахуй, я пришел сюда, чтобы оберегать ваш сервер от ебланов. А еще мне не требуется настройка. Для того чтобы меня пригласить напиши `-invite` или `-help` для помощи. \n\nИ да блять, если у тебя непереносимость мата, то смело кикай меня, мата у меня будет много, но мне как-то похуй. (Кто не зайдет тот лох https://discord.gg/NvcAKdt)'
 
 /** @namespace process.env.BOT_TOKEN */
 
 client.on('ready', () => {
-    const official = client.guilds.get(officialID);
-    client.user.setActivity(`за ${official.members.random().displayName}`, { type: 3 });
+    setInterval(() => client.user.setActivity(`за ${client.users.random().username}`, {type: 'WATCHING'}), 16000);
     console.log(`Бот ${client.user.tag} умер`);
 });
 
-client.on('messageUpdate', (oldMsg, newMsg) => checkInvite(newMsg.content, newMsg.author, newMsg.guild, newMsg))
-client.on('userUpdate', (oldUser, newUser) => checkInvite(newUser.username, newUser, client.guilds.get(officialID).members.get(newUser.id)))
-client.on('guildMemberUpdate', (oldMem, newMem) => checkInvite(newMem.displayName))
+client.on('guildCreate', guild => {
+    const embed = new Discord.RichEmbed()
+    .addField(':inbox_tray: New server information', `
+    Name: \`${guild.name}\`
+    ID: \`${guild.id}\`
+    Objects count: \`m: ${guild.memberCount}, r: ${guild.roles.size}, ch: ${guild.channels.size}, e: ${guild.emojis.size}\`
+    Owner: ${guild.owner.user} \`${guild.owner.user.tag}\`
+    Created at: \`${guild.createdAt.toLocaleString('ru-RU', {timeZone: 'Europe/Moscow', hour12: false}).replace(/\//g, '.')}\``)
+    .setColor('ff55ff')
+    .setThumbnail(guild.iconURL)
+    .setFooter(`Now we have ${client.guilds.size} servers`)
+    client.channels.get('548824964556521493').send(embed)
+    let channels = guild.channels.filter(channel => channel.type === 'text' && channel.permissionsFor(message.guild.me).has('SEND_MESSAGES'));
+    if (channels) channels.first().send(help);
+});
+
+client.on('guildDelete', guild => {
+    const embed = new Discord.RichEmbed()
+    .addField(':outbox_tray: -Server', `
+    Name: \`${guild.name}\`
+    ID: \`${guild.id}\`
+    Objects count: \`m: ${guild.memberCount}, r: ${guild.roles.size}, ch: ${guild.channels.size}, e: ${guild.emojis.size}\`
+    Owner: ${guild.owner.user} \`${guild.owner.user.tag}\`
+    Created at: \`${guild.createdAt.toLocaleString('ru-RU', {timeZone: 'Europe/Moscow', hour12: false}).replace(/\//g, '.')}\``)
+    .setColor('ff5555')
+    .setThumbnail(guild.iconURL)
+    .setFooter(`Now we have ${client.guilds.size} servers`);
+    client.channels.get('548824964556521493').send(embed);
+})
 
 client.on('message', message => {
-    if (message.guild.id !== officialID) {
-        message.channel.send('Пiшов нахуй :middle_finger:');
-        message.guild.leave().catch();
+    if (message.author.bot || !message.guild) return
+
+    const muted = message.guild.roles.find(r => r.name.match(/muted/i);
+
+    if (message.content === '-help') {
+      const embed = new Discord.RichEmbed()
+      .addField('Спраффка', help)
+      .setColor('230989')
+      message.channel.send(embed);
+    } if (message.content === '-invite') {
+      const embed = new Discord.RichEmbed()
+      .sedDescripton(`[тык](https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8)`)
+      message.channel.send(embed);
     }
-    
-    if (message.author.bot || message.channel.type !== 'text' || message.member.hasPermission("ADMINISTRATOR")) return
 
-    setTimeout(() => client.user.setActivity(`за ${message.author.username}`, { type: 3 }), 16000)
+    let arr = [];
+    message.guild.fetchInvites().then(invites => {
+        invites.forEach(invite => {
+        arr.push(invite.code);
+    })
 
-    checkInvite(message.content, message.author, message.guild, message)
+    let matches = message.content.match(inviteReg);
+
+    if (matches)
+        matches.forEach((match) => {
+            if (!arr.includes(match.match(/discord(app\.com\/invite|.\w{2}\/\w{5,})/i)[3])) {
+                message.delete();
+                message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`);
+                message.author.send('Слышь ты, пидорас. Ахуел сервера пиарить? Получай перманетный бан')
+                message.guild.ban(message.member)
+            }
+        })
+    });
 
     //Система защиты от спама. Код пиздец какой ебнутый, я знаю
 
-    if (message.member.roles.has(animal) && message.channel.id === zoo) return;
-
-    const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 6000 })
+    let collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 6000 })
     collector.on('collect', msg => {
-        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
+        collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
         collector.on('collect', msg2 => {
-            const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 2000 })
+            collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 2000 })
             collector.on('collect', msg3 => {
                 if (!warnedFlood.has(message.author.id)) {
+                    message.delete();
                     message.reply('попрошу вас пожалуйста перестать спамить, иначе уебу');
                     warnedFlood.add(message.author.id);
-                    setTimeout(() => { warnedFlood.delete(message.author.id) }, 3000)
-                } 
+                    setTimeout(() => warnedFlood.delete(message.author.id), 3000)
+                }
             })
         })
     })
 
-    if (warnedFlood.has(message.author.id) && message.guild.id == officialID) {
+    if (warnedFlood.has(message.author.id)) {
         warnedFlood.delete(message.author.id)
-        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 3000 })
-            collector.on('collect', msg3 => {
+        const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
+        collector.on('collect', msg => {
+            if (muted) {
                 message.reply('Был наказан на 10 минут');
-                message.member.addRole(animal);
                 message.author.send('Ты наказан на 10 минут');
-                setTimeout(() => { message.member.removeRole(animal) }, 600000)
-            });
+                message.member.addRole(muted);
+                setTimeout(() => { message.member.removeRole(muted), 600000)
+            } else {
+                message.channel.send(`Упс, кажется, на вашем сервер нет роли с названием \`Muted\`, так что ${message.author} был кикнут`);
+                message.guild.kick(message.member);
+            };
+        });
     }
-
-    //
-
-    if (message.channel.id === emojis) {
-        if (message.attachments.size === 0 && !message.content.match(/https:\/\/cdn.discordapp.com\/(attachments|emojis)\//)) {
-            message.delete();
-            if (!warnedEmojis.has(message.author.id)) {
-                warnedEmojis.add(message.author.id)
-                message.author.send('Ваше сообщение не имеет картинки, либо ссылкана картинку не принадлежит Discord (`https://cdn.discordapp.com/attachments/id/id/name.png`). Будешь продолжать - получишь бан');
-            }
-            else {
-                message.author.send('Мы уже блять тебя предупредили что нужно сука отправлять только эмодзи (с ссылками принадлежащими дискорду). Так что получаешь бан по причине пидорас')
-                message.member.ban('Пидорас');
-            }
-        }
-    }
-
-    if (message.channel.id === cmds) {
-        if (message.content.startsWith('=')) {
-            message.delete();
-            if (!warnedCmds.has(message.author.id)) {
-                warnedCmds.add(message.author.id)
-                message.author.send('Ты че заголовок не читал? Там сказано что нельзя использовать команды этого бота, у тебя же блять нет на это прав долбаеб...');
-            }
-            else {
-                message.author.send('Мы уже блять тебя предупредили что нельзя сука использовать команды этого бота. Так что получаешь бан по причине пидорас. Нам не нужны такие долбаебы как ты')
-                message.member.ban('Пидорас');
-            }
-        }
-    }
-
 })
 
 client.login(process.env.BOT_TOKEN);
