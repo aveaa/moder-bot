@@ -57,7 +57,7 @@ client.on('message', message => {
       message.channel.send(embed);
     } if (message.content === '-invite') {
       const embed = new Discord.RichEmbed()
-      .sedDescription(`[тык](https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8)`)
+      .setDescription(`[тык](https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8)`)
       message.channel.send(embed);
     }
 
