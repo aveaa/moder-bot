@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({disableEveryone : true});
 
-const inviteReg = /discord(app\.com\/invite|.\w{2})\/\w{5,})/gi;
+const inviteReg = /discord(app\.com\/invite|.\w{2}\/\w{5,})/gi;
 
 checkInvite = (text, user, guild, message) => {
     let arr = [];
@@ -14,7 +14,7 @@ checkInvite = (text, user, guild, message) => {
 
     if (matches)
         matches.forEach((match) => {
-            if (!arr.includes(match.match(/discord(app\.com\/invite|.\w{2})\/\w{5,})/i)[3])) {
+            if (!arr.includes(match.match(/discord(app\.com\/invite|.\w{2}\/\w{5,})/i)[3])) {
                 if (message) {
                     message.delete();
                     message.channel.send(`${message.author} Был уебан с вертухи за рекламу. Кто следующий?`)
