@@ -111,7 +111,7 @@ client.on('message', message => {
             } else {
                 if (message.member.kickable) message.channel.send(`Упс, кажется, на вашем сервер нет роли с названием \`Muted\`, так что ${message.author} был кикнут`);
                 else message.channel.send('Бля, не могу кикнуть этого пидораса, прав нету')
-                message.guild.kick(message.member);
+                message.member.kick('Пидорас');
             };
         });
     }
