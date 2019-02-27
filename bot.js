@@ -89,7 +89,7 @@ client.on('message', message => {
             collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 2000 })
             collector.on('collect', msg3 => {
                 if (!warnedFlood.has(message.author.id)) {
-                    message.delete();
+                    msg3.delete();
                     message.reply('попрошу вас пожалуйста перестать спамить, иначе уебу');
                     warnedFlood.add(message.author.id);
                     setTimeout(() => warnedFlood.delete(message.author.id), 3000)
@@ -102,6 +102,7 @@ client.on('message', message => {
         warnedFlood.delete(message.author.id)
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
         collector.on('collect', msg => {
+            msg.delete();
             if (muted) {
                 if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('Бля, не могу замутить этого пидораса, прав нету')
                 message.reply('Был наказан на 10 минут');
