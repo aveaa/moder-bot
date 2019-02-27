@@ -103,12 +103,14 @@ client.on('message', message => {
         const collector = new Discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { time: 4000 })
         collector.on('collect', msg => {
             if (muted) {
+                if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('Бля, не могу замутить этого пидораса, прав нету')
                 message.reply('Был наказан на 10 минут');
                 message.author.send('Ты наказан на 10 минут');
                 message.member.addRole(muted);
                 setTimeout(() => message.member.removeRole(muted), 600000)
             } else {
-                message.channel.send(`Упс, кажется, на вашем сервер нет роли с названием \`Muted\`, так что ${message.author} был кикнут`);
+                if (message.member.kickable) message.channel.send(`Упс, кажется, на вашем сервер нет роли с названием \`Muted\`, так что ${message.author} был кикнут`);
+                else message.channel.send('Бля, не могу кикнуть этого пидораса, прав нету')
                 message.guild.kick(message.member);
             };
         });
