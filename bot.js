@@ -80,9 +80,10 @@ client.on('message', message => {
         })
     });
     
-    if (message.content.match(/<@242975403512168449>/)) {
+    if (message.content.match(/<!?@242975403512168449>/)) {
         message.reply('Андрюшу не пингуй, мут на 3 часа');
-        message.member.addRole('520987892219379712').then(r => setTimeout(() => message.member.removeRole(r), 6e5))
+        message.member.addRole(muted);
+        setTimeout(() => message.member.removeRole(muted), 600000)
     }
 
     //Система защиты от спама. Код пиздец какой ебнутый, я знаю
