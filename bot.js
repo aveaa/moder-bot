@@ -6,7 +6,7 @@ const inviteReg = /discord(app\.com\/invite|.\w{2}\/\w{5,})/gi;
 let warnedFlood = new Set();
 let flood = new Set();
 
-const help = 'Здарова нахуй, я пришел сюда, чтобы оберегать ваш сервер от ебланов. А еще мне не требуется настройка. Для того чтобы меня пригласить напиши `-invite` или `-help` для помощи. \n\nИ да блять, если у тебя непереносимость мата, то смело кикай меня, мата у меня будет много, но мне как-то похуй. (Кто не зайдет тот лох https://discord.gg/NvcAKdt)'
+const help = 'Здарова нахуй, я пришел сюда, чтобы оберегать ваш сервер от ебланов. А еще мне не требуется настройка. Для того чтобы меня пригласить напиши `-invite` или `-help` для помощи. \n\nИ да блять, если у тебя непереносимость мата, то смело кикай меня, мата у меня будет много, но мне как-то похуй. (Кто не зайдет тот лох https://discord.gg/bM6eVMt)'
 
 /** @namespace process.env.BOT_TOKEN */
 
@@ -42,7 +42,7 @@ client.on('guildDelete', guild => {
     .setColor('ff5555')
     .setThumbnail(guild.iconURL)
     .setFooter(`Now we have ${client.guilds.size} servers`);
-    client.channels.get('548824964556521493').send(embed);
+    client.channels.get('558547148556337174').send(embed);
 })
 
 client.on('message', message => {
